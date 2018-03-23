@@ -1,3 +1,16 @@
 page-quotes {
+    .author {
+        color: #ccc;
+        text-transform: uppercase;
+        text-align: right;
+        padding: 0;
+        margin: right; 
+        &:before {
+         content: '-';
+      }
+    }
+  //  .author:before {
+    //    content: '-';
+   // } или вместо этого &:before - выше
 
 }

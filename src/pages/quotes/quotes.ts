@@ -1,25 +1,54 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { NavParams, AlertController, Button} from 'ionic-angular';
+import { Quote } from '../../data/quote.interface';
 
-/**
- * Generated class for the QuotesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
-@IonicPage()
+
 @Component({
   selector: 'page-quotes',
   templateUrl: 'quotes.html',
 })
-export class QuotesPage {
+export class QuotesPage implements OnInit{
+  quoteGroup: {category: string, quotes: Quote[], icon: string}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private navParams: NavParams,
+              private alertCtrl: AlertController) {}
+
+  ngOnInit() {
+    this.quoteGroup = this.navParams.data;
+  }
+  
+  // или др. вариант ниже с добавлением "?" в template {{ quoteGroup?.category | uppercase }}
+ /* ionViewDidLoad() {
+    this.quoteGroup = this.navParams.data;
+  } */
+
+  onAddToFavorite(selectedQuote: Quote) {
+    const alert = this.alertCtrl.create({
+      title: 'Add the quote',
+      subTitle: 'Are you sure?',
+      message: 'Are you sure you want to add the quote?',
+      buttons: [
+        {
+          text: 'Yes, go ahead',
+          role: 'cancel',
+          handler: () => {
+            console.log('Ok');
+          }          
+        },
+        {
+          text: 'No, I changed my thought',
+          
+          handler: () => {
+            console.log('Cancelled!');
+          }
+        }        
+      ]
+    });
+
+    alert.present();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad QuotesPage');
   }
 
-}
+
