@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, AlertController, Button} from 'ionic-angular';
 import { Quote } from '../../data/quote.interface';
+import { QuotesService } from '../../services/quotes';
 
 
 
@@ -12,7 +13,8 @@ export class QuotesPage implements OnInit{
   quoteGroup: {category: string, quotes: Quote[], icon: string}
 
   constructor(private navParams: NavParams,
-              private alertCtrl: AlertController) {}
+              private alertCtrl: AlertController,
+              private quotesService: QuotesService) {}
 
   ngOnInit() {
     this.quoteGroup = this.navParams.data;
@@ -30,18 +32,19 @@ export class QuotesPage implements OnInit{
       message: 'Are you sure you want to add the quote?',
       buttons: [
         {
-          text: 'Yes, go ahead',
-          role: 'cancel',
+          text: 'Yes, go ahead',         
           handler: () => {
-            console.log('Ok');
+            this.quotesService.addQuoteToFavorites(selectedQuote);
           }          
         },
         {
           text: 'No, I changed my thought',
-          
+          role: 'cancel',
           handler: () => {
             console.log('Cancelled!');
           }
+          /* "role" - позволяет выйти из алерта, дотронувшись до эрана за пределами пятна алерта и
+          выполняет действие кнопки а которой вставлен, в даном случае 'cancel'*/
         }        
       ]
     });
